@@ -6,106 +6,108 @@ class Player(ABC):
         self.nickname = nickname
 
     @abstractmethod
-    def get_rating(self) -> None:
+    def get_rating(self) -> int:
         pass
 
     @abstractmethod
-    def player_info(self) -> None:
+    def player_info(self) -> str:
         pass
 
 
-class Elf(Player, ABC):
+class Elf(Player):
     def __init__(self, nickname: str, musical_instrument: str) -> None:
         super().__init__(nickname)
-        self.__musical_instrument = musical_instrument
+        self._musical_instrument = musical_instrument
 
     def play_elf_song(self) -> None:
         print(f"{self.nickname} is playing a "
-              f"song on the {self.__musical_instrument}")
+              f"song on the {self._musical_instrument}")
 
 
-class Dwarf(Player, ABC):
+class Dwarf(Player):
     def __init__(self, nickname: str, favourite_dish: str) -> None:
         super().__init__(nickname)
-        self.__favourite_dish = favourite_dish
+        self._favourite_dish = favourite_dish
 
     def eat_favourite_dish(self) -> None:
-        print(f"{self.nickname} is eating {self.__favourite_dish}")
+        print(f"{self.nickname} is eating {self._favourite_dish}")
 
 
-class ElfRanger(Elf, ABC):
+class ElfRanger(Elf):
     def __init__(self,
                  nickname: str,
                  musical_instrument: str,
                  bow_level: int) -> None:
         super().__init__(nickname, musical_instrument)
-        self.__bow_level = bow_level
+        self._bow_level = bow_level
 
     def player_info(self) -> str:
         return (f"Elf ranger {self.nickname}. "
-                f"{self.nickname} has bow of the {self.__bow_level} level")
+                f"{self.nickname} has bow of the {self._bow_level} level")
 
     def get_rating(self) -> int:
-        return self.__bow_level * 3
+        return self._bow_level * 3
 
 
-class Druid(Elf, ABC):
+class Druid(Elf):
     def __init__(self,
                  nickname: str,
                  musical_instrument:
                  str, favourite_spell: str) -> None:
         super().__init__(nickname, musical_instrument)
-        self.__favourite_spell = favourite_spell
+        self._favourite_spell = favourite_spell
 
     def player_info(self) -> str:
         return (f"Druid {self.nickname}. "
                 f"{self.nickname} has a "
-                f"favourite spell: {self.__favourite_spell}")
+                f"favourite spell: {self._favourite_spell}")
 
     def get_rating(self) -> int:
-        return len(self.__favourite_spell)
+        return len(self._favourite_spell)
 
 
-class DwarfWarrior(Dwarf, ABC):
+class DwarfWarrior(Dwarf):
     def __init__(self,
                  nickname: str,
                  favourite_dish:
                  str, hummer_level: int) -> None:
         super().__init__(nickname, favourite_dish)
-        self.__hummer_level = hummer_level
+        self._hummer_level = hummer_level
 
     def player_info(self) -> str:
         return (f"Dwarf warrior {self.nickname}. "
                 f"{self.nickname} has a "
-                f"hummer of the {self.__hummer_level} level")
+                f"hummer of the {self._hummer_level} level")
 
     def get_rating(self) -> int:
-        return self.__hummer_level + 4
+        return self._hummer_level + 4
 
 
-class DwarfBlacksmith(Dwarf, ABC):
+class DwarfBlacksmith(Dwarf):
     def __init__(self,
                  nickname: str,
                  favourite_dish: str,
                  skill_level: int) -> None:
         super().__init__(nickname, favourite_dish)
-        self.__skill_level = skill_level
+        self._skill_level = skill_level
 
     def player_info(self) -> str:
         return (f"Dwarf blacksmith {self.nickname} "
-                f"with skill of the {self.__skill_level} level")
+                f"with skill of the {self._skill_level} level")
 
     def get_rating(self) -> int:
-        return self.__skill_level
+        return self._skill_level
 
 
-def calculate_team_total_rating(player: list[Player]) -> str:
-    return sum(player.get_rating() for player in player)
+def calculate_team_total_rating(players: list[Player]) -> int:
+    return sum(player.get_rating() for player in players)
 
 
-def elves_concert(player: list[Elf]) -> str:
-    return (player.play_elf_song for player in player)
+def elves_concert(elves: list[Elf]) -> None:
+    for elf in elves:
+        elf.play_elf_song()
 
 
-def feast_of_the_dwarves(player: list[Dwarf]) -> str:
-    return (player.eat_favourite_dish for player in player)
+def feast_of_the_dwarves(dwarves: list[Dwarf]) -> None:
+    for dwarf in dwarves:
+        dwarf.eat_favourite_dish()
